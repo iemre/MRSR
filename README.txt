@@ -1,5 +1,5 @@
 ==============================LICENSE====================================
-A MATLAB Package for Collaborative Filtering Recommender Systems Research
+MATLAB Recommender System Research Software
 Copyright (C) 2014  Ismail Emre Kartoglu
 
 This program is free software; you can redistribute it and/or
