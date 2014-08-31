@@ -1,5 +1,5 @@
 % ===============================================================================
-% ItemBasedKNN contains necessary and sufficient methods 
+% ItemBasedKNN contains some  methods 
 % for the implementation of an item-based K-Nearest-Neighbours recommender.
 %
 % Example:
