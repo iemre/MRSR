@@ -185,5 +185,9 @@ classdef UIMatrixUtils
             result = length(find(data(:, itemIndex) ~= nilElement));
         end
         
+        function itemIndices = getItemsRatedByUser(matrix, userIndex, nilElement)
+            itemIndices = find(matrix(userIndex, :) ~= 0);
+        end
+        
     end     
 end

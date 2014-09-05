@@ -66,6 +66,7 @@ classdef (Abstract) AbstractExperiment < handle
             totalCount = 0;
             totalPrecision = 0;
             totalRecall = 0;
+            totalHit = 0;
             for userIndex = userIndices
                 if UIMatrixUtils.userHasNoRatings(obj.testSet, userIndex, obj.nilElement)
                     continue;
@@ -82,14 +83,15 @@ classdef (Abstract) AbstractExperiment < handle
                         hit = hit + 1;
                     end
                 end
-
+                totalHit = totalHit + hit;
                 precision = hit/n;
                 totalPrecision = totalPrecision + precision;
                 
                 userTestItemCount = UIMatrixUtils.getNumberOfRatingsOfUser(obj.testSet, userIndex, obj.nilElement);
                 recall = hit/userTestItemCount;
                 totalRecall = totalRecall + recall;
-
+                disp(totalHit/i);
+                
                 totalCount = totalCount + 1;
             end
             

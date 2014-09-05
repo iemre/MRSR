@@ -144,6 +144,13 @@ classdef UIMatrixUtilsTest < matlab.unittest.TestCase
            testCase.verifyEqual(result, 2);
        end
        
+       function shouldGetItemsRatedByUser(testCase)
+           baseSet = [0 0 2 0 5; 1 0 2 3 4; 34 3 4 1 0]; 
+           
+           items = UIMatrixUtils.getItemsRatedByUser(baseSet, 1, 0);
+           
+           testCase.verifyEqual(items, [3 5]);
+       end
    end
    
 end

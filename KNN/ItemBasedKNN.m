@@ -1,6 +1,6 @@
 % ===============================================================================
-% ItemBasedKNN contains some  methods 
-% for the implementation of an item-based K-Nearest-Neighbours recommender.
+% ItemBasedKNN contains some methods for the implementation of an item-based 
+% K-Nearest-Neighbours recommender.
 %
 % Example:
 % To run accuracy experiments, the user can simply do the following:
@@ -57,7 +57,60 @@ classdef ItemBasedKNN < AbstractExperiment
                 prediction = nan;
             end
         end
+        
+        function items = getMostSimilarUnratedItems(obj, userIndex, ratedItemIndices, n)
+            allSimItemIndices = [];
+            for i = 1:ratedItemIndices
+                allSimItemIndices = [allSimItemIndices obj.similarItemIndexes{i}];
+            end
+            
+            allSimilarities = [];
+            for i = 1:ratedItemIndices
+                allSimilarities = [allSimilarities obj.similarities{i}];
+            end
+            
+            [~, indices] = sort(allSimilarities, 'descend');
+            items = [];
+            
+            for i = indices
+                itemIndex = allSimItemIndices(i);
+                if UIMatrixUtils.userHasRatedItem(obj.baseSet, userIndex, itemIndex, obj.nilElement)
+                    continue;
+                end
+                if ismember(itemIndex, items) == 0
+                    items = [items itemIndex];
+                end
+                if length(items) > n
+                    break;
+                end
+            end
+        end
 
+        function items = getMostSimilarAllItems(obj, ratedItemIndices, n)
+            allSimItemIndices = [];
+            for i = ratedItemIndices
+                allSimItemIndices = [allSimItemIndices obj.similarItemIndexes{i}];
+            end
+            
+            allSimilarities = [];
+            for i = ratedItemIndices
+                allSimilarities = [allSimilarities obj.similarities{i}];
+            end
+            
+            [~, indices] = sort(allSimilarities, 'descend');
+            items = [];
+            
+            for i = indices
+                itemIndex = allSimItemIndices(i);
+                if ismember(itemIndex, items) == 0
+                    items = [items itemIndex];
+                end
+                if length(items) > n
+                    break;
+                end
+            end
+        end
+        
         function obj = ItemBasedKNN(baseSet, testSet)
             obj = obj@AbstractExperiment(baseSet, testSet);
         end
@@ -84,36 +137,22 @@ classdef ItemBasedKNN < AbstractExperiment
     methods
         
         function topNList = generateTopNListForUser(obj, n, userIndex)
-            predictions = ones(1, obj.itemCount) * obj.nilElement;
+            ratedItemIndices = UIMatrixUtils.getItemsRatedByUser(obj.baseSet, userIndex, obj.nilElement);
             
-            for itemIndex = 1:obj.itemCount
-                prediction = obj.predict(userIndex, itemIndex);
-                if isnan(prediction)
-                    prediction = 0;
-                end
-                predictions(itemIndex) = prediction;
-            end
+            items = obj.getMostSimilarAllItems(ratedItemIndices, n);
             
-            [~, topNList] = sort(predictions, 'descend');
-            topNList = topNList(1:n);
+            topNList = items(1:n);
         end
         
         function topNList = generateTopNListForTestSetForUser(obj, n, userIndex)
-            predictions = ones(1, obj.itemCount) * obj.nilElement;
+            ratedItemIndices = UIMatrixUtils.getItemsRatedByUser(obj.baseSet, userIndex, obj.nilElement);
             
-            for itemIndex = 1:obj.itemCount
-                if UIMatrixUtils.userHasRatedItem(obj.baseSet, userIndex, itemIndex, obj.nilElement)
-                    continue;
-                end
-                prediction = obj.predict(userIndex, itemIndex);
-                if isnan(prediction)
-                    prediction = obj.minRating;
-                end
-                predictions(itemIndex) = prediction;
+            items = obj.getMostSimilarUnratedItems(userIndex, ratedItemIndices, n);
+            if n > length(items)
+                topNList = items;
+                return;
             end
-            
-            [~, topNList] = sort(predictions, 'descend');
-            topNList = topNList(1:n);
+            topNList = items(1:n);
         end
         
         
@@ -269,7 +308,7 @@ classdef ItemBasedKNN < AbstractExperiment
                 neighbourIndexes = [neighbourIndexes(2:end), itemIndex];
                 distances = distances(2:end);
                 similarityRates = [1 - distances, 0];
-                
+                similarityRates(isnan(similarityRates)) = 0;
                 obj.similarItemIndexes{itemIndex} = neighbourIndexes;
                 obj.similarities{itemIndex} = similarityRates;
             end 
