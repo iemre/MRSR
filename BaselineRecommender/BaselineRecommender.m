@@ -110,11 +110,14 @@ classdef BaselineRecommender < AbstractExperiment
             allData = UIMatrixUtils.mergeBaseAndTestSet(obj.baseSet, obj.testSet, obj.nilElement);
             
             totalCpp = 0;
+            countUser = 0;
             for userIndex = 1:obj.userCount
                 correctlyPlacedCount = 0;
                 fprintf('processing user %d\n', userIndex);
                 itemsUserHasNotRated = find(allData(userIndex, :) == obj.nilElement);
-                
+                if isempty(itemsUserHasNotRated)
+                    continue;
+                end
                 for i = 1:obj.itemCount-1
                     if UIMatrixUtils.userHasRatedItem(obj.testSet, userIndex, topHitItemIndices(i), obj.nilElement)
                         members = ismember((i+1):obj.itemCount, itemsUserHasNotRated);
@@ -126,9 +129,10 @@ classdef BaselineRecommender < AbstractExperiment
                 userAllRatingCount = UIMatrixUtils.getNumberOfRatingsOfUser(allData, userIndex, obj.nilElement);
                 
                 totalCpp = totalCpp + correctlyPlacedCount/(userTestRatingCount*(obj.itemCount-userAllRatingCount));
+                countUser = countUser + 1;
             end
             
-            cpp = totalCpp / obj.userCount;
+            cpp = totalCpp / countUser;
             disp(cpp);
         end
                 
