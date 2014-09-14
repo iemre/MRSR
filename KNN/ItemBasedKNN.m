@@ -60,12 +60,12 @@ classdef ItemBasedKNN < AbstractExperiment
         
         function items = getMostSimilarUnratedItems(obj, userIndex, ratedItemIndices, n)
             allSimItemIndices = [];
-            for i = 1:ratedItemIndices
+            for i = ratedItemIndices
                 allSimItemIndices = [allSimItemIndices obj.similarItemIndexes{i}];
             end
             
             allSimilarities = [];
-            for i = 1:ratedItemIndices
+            for i = ratedItemIndices
                 allSimilarities = [allSimilarities obj.similarities{i}];
             end
             
