@@ -47,6 +47,10 @@ classdef UserBasedSparseCoderExperiment < AbstractSparseCoderExperiment
 
     
     methods
+        function initialiseForCPP(obj)
+            % not implemented
+        end
+        
         function result = userHasNotRatedItemInTestingSet(obj, userIndex, itemIndex)
             result = UIMatrixUtils.userHasNotRatedItem(obj.testSet',userIndex,itemIndex,obj.nilElement);
         end

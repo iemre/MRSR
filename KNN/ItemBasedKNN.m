@@ -141,7 +141,11 @@ classdef ItemBasedKNN < AbstractExperiment
             
             items = obj.getMostSimilarAllItems(ratedItemIndices, n);
             
-            topNList = items(1:n);
+            if length(items) < n
+                topNList = items;
+            else
+                topNList = items(1:n);
+            end
         end
         
         function topNList = generateTopNListForTestSetForUser(obj, n, userIndex)
@@ -346,40 +350,9 @@ classdef ItemBasedKNN < AbstractExperiment
             obj.similarities{itemIndex} = similarityRates;
             prediction = obj.predict(userIndex, itemIndex);
         end
-        
-        function obj = calculateCPP(obj, calcSim)
-            % calculates Correctly Placed Pairs metric
-            allData = UIMatrixUtils.mergeBaseAndTestSet(obj.baseSet, obj.testSet, obj.nilElement);
-
-            if calcSim
-                obj.calculateSimilaritiesUsingMatlabKNN;
-            end
-
-            totalCpp = 0;
-            countUser = 0;
-            for userIndex = 1:obj.userCount
-                userTestRatingCount = UIMatrixUtils.getNumberOfRatingsOfUser(obj.testSet, userIndex, obj.nilElement);
-                if userTestRatingCount == 0
-                    continue;
-                end
-                correctlyPlacedCount = 0;
-                fprintf('processing user %d\n', userIndex);
-                itemsUserHasNotRated = find(allData(userIndex, :) == obj.nilElement);
-                topItemIndices = obj.generateTopNListForUser(obj.itemCount, userIndex);
-                for i = 1:obj.itemCount-1
-                    if UIMatrixUtils.userHasRatedItem(obj.testSet, userIndex, topItemIndices(i), obj.nilElement)
-                        members = ismember((i+1):obj.itemCount, itemsUserHasNotRated);
-                        correctlyPlacedCount = correctlyPlacedCount + sum(members);
-                    end
-                end      
-
-                userAllRatingCount = UIMatrixUtils.getNumberOfRatingsOfUser(allData, userIndex, obj.nilElement);
-                totalCpp = totalCpp + correctlyPlacedCount/(userTestRatingCount*(obj.itemCount-userAllRatingCount));
-                countUser = countUser + 1;
-            end
-
-            cpp = totalCpp / countUser;
-            disp(cpp);            
+         
+        function initialiseForCPP(obj)
+            obj.calculateSimilaritiesUsingMatlabKNN;
         end
     end
 

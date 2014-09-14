@@ -42,6 +42,8 @@ classdef RandomRecommender < AbstractExperiment
         end
         function prediction = calculateFullPrediction(obj, userIndex, itemIndex)
         end
+        function initialiseForCPP(obj)
+        end
        
         function obj = calculateErrors(obj)
             totalError = 0;

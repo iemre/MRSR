@@ -21,13 +21,16 @@ classdef BaselineRecommender < AbstractExperiment
     
     methods
         function topNList = generateTopNListForUser(obj, n, userIndex)
-        %not implemented
+            % not implemented
         end
         function topNList = generateTopNListForTestSetForUser(obj, n, userIndex)
-        %not implemented
+            % not implemented
         end
-        function prediction = calculateFullPrediction(obj, userIndex, itemIndex);
-        %not implemented
+        function prediction = calculateFullPrediction(obj, userIndex, itemIndex)
+            % not implemented
+        end
+        function initialiseForCPP(obj)
+            % not implemented
         end
        
         function obj = calculateErrorByUserAverage(obj)

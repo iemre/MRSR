@@ -23,6 +23,7 @@ classdef (Abstract) AbstractExperiment < handle
        topNList = generateTopNListForUser(obj, n, userIndex)
        topNList = generateTopNListForTestSetForUser(obj, n, userIndex)
        prediction = calculateFullPrediction(obj, userIndex, itemIndex);
+       initialiseForCPP(obj)
    end
    
    methods
@@ -110,6 +111,52 @@ classdef (Abstract) AbstractExperiment < handle
             time = toc;
         end
 
+        function cpp = calculateCPP(obj, reconstruct)
+            % This method calculates the CPP (Correctly Placed Pairs)
+            % measure
+            
+            allData = UIMatrixUtils.mergeBaseAndTestSet(obj.baseSet, obj.testSet, obj.nilElement);
+            
+            if reconstruct
+                obj.initialiseForCPP;
+            end
+            
+            totalCpp = 0;
+            countUser = 0;
+            for userIndex = 1:obj.userCount
+                userTestRatingCount = UIMatrixUtils.getNumberOfRatingsOfUser(obj.testSet, userIndex, obj.nilElement);
+                if userTestRatingCount == 0
+                    continue;
+                end
+                correctlyPlacedCount = 0;
+                fprintf('processing user %d\n', userIndex);
+                itemsUserHasNotRated = find(allData(userIndex, :) == obj.nilElement);
+                
+                if isempty(itemsUserHasNotRated)
+                    % If user has rated all items then, by definition,
+                    % CPP cannot be calculated for that user
+                    continue;
+                end
+                
+                topItemIndices = obj.generateTopNListForUser(obj.itemCount, userIndex);
+                
+                for i = 1:obj.itemCount-1
+                    if UIMatrixUtils.userHasRatedItem(obj.testSet, userIndex, topItemIndices(i), obj.nilElement)
+                        members = ismember((i+1):obj.itemCount, itemsUserHasNotRated);
+                        correctlyPlacedCount = correctlyPlacedCount + sum(members);
+                    end
+                end      
+                
+                userAllRatingCount = UIMatrixUtils.getNumberOfRatingsOfUser(allData, userIndex, obj.nilElement);
+                totalCpp = totalCpp + correctlyPlacedCount/(userTestRatingCount*(obj.itemCount-userAllRatingCount));
+                countUser = countUser + 1;
+            end
+            
+            cpp = totalCpp / countUser;
+            obj.result.CPP = cpp;
+            disp(obj.result);
+        end
+        
    end
    
 end

@@ -62,6 +62,10 @@ classdef ItemBasedSparseCoderExperiment < AbstractSparseCoderExperiment
     
     methods
         
+        function initialiseForCPP(obj)
+            obj.reconstructWithoutNormalisation;
+        end
+        
         function dictionary = normaliseDictionary(obj, dictionary)
             [~, colCount] = size(dictionary);
             for itemIndex = 1:colCount
@@ -271,43 +275,6 @@ classdef ItemBasedSparseCoderExperiment < AbstractSparseCoderExperiment
                     obj.reconstruction(user, itemIndex) = predictedRating;
                 end 
             end
-        end
-        
-        function obj = calculateCPP(obj, reconstruct)
-            % calculates Correctly Placed Pairs metric
-            allData = UIMatrixUtils.mergeBaseAndTestSet(obj.baseSet, obj.testSet, obj.nilElement);
-            
-            if reconstruct
-                obj.reconstructWithoutNormalisation;
-            end
-            
-            totalCpp = 0;
-            countUser = 0;
-            for userIndex = 1:obj.userCount
-                userTestRatingCount = UIMatrixUtils.getNumberOfRatingsOfUser(obj.testSet, userIndex, obj.nilElement);
-                if userTestRatingCount == 0
-                    continue;
-                end
-                correctlyPlacedCount = 0;
-                fprintf('processing user %d\n', userIndex);
-                itemsUserHasNotRated = find(allData(userIndex, :) == obj.nilElement);
-                userRatings = obj.reconstruction(userIndex, :);
-                
-                [~, topItemIndices] = sort(userRatings, 'descend');
-                for i = 1:obj.itemCount-1
-                    if UIMatrixUtils.userHasRatedItem(obj.testSet, userIndex, topItemIndices(i), obj.nilElement)
-                        members = ismember((i+1):obj.itemCount, itemsUserHasNotRated);
-                        correctlyPlacedCount = correctlyPlacedCount + sum(members);
-                    end
-                end      
-                
-                userAllRatingCount = UIMatrixUtils.getNumberOfRatingsOfUser(allData, userIndex, obj.nilElement);
-                totalCpp = totalCpp + correctlyPlacedCount/(userTestRatingCount*(obj.itemCount-userAllRatingCount));
-                countUser = countUser + 1;
-            end
-            
-            cpp = totalCpp / countUser;
-            disp(cpp);            
         end
         
         function novelty = calculateNovelty(obj, recons, n)
