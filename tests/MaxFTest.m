@@ -1,4 +1,4 @@
-classdef BaselineRecommenderTest < matlab.unittest.TestCase
+classdef MaxFTest < matlab.unittest.TestCase
    
     properties
         originalPath
@@ -23,7 +23,7 @@ classdef BaselineRecommenderTest < matlab.unittest.TestCase
         function shouldGetTopHitItems(testCase)
             baseSet = [1 2 1; 0 0 1; 0 5 4];
             testSet = [0 0 5; 2 3 0; 0 0 0];
-            test = BaselineRecommender.createNew(baseSet,testSet);
+            test = MaxF.createNew(baseSet,testSet);
             
             [topHitItems, hits] = test.getTopHitItems(baseSet);
             
@@ -34,7 +34,7 @@ classdef BaselineRecommenderTest < matlab.unittest.TestCase
         function shouldGetTopHitItems2(testCase)
             baseSet = [1 2 1; 0 0 1; 0 5 4; 0 0 5];
             testSet = [0 0 5; 2 3 0; 0 0 0; 0 0 0];
-            test = BaselineRecommender.createNew(baseSet,testSet);
+            test = MaxF.createNew(baseSet,testSet);
             
             [topHitItems, hits] = test.getTopHitItems(baseSet);
             
