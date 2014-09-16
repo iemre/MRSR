@@ -140,6 +140,12 @@ classdef (Abstract) AbstractExperiment < handle
                 
                 topItemIndices = obj.generateTopNListForUser(obj.itemCount, userIndex);
                 
+                if isempty(topItemIndices)
+                    % User 5159 in ML1M has no ratings to make
+                    % recommendations. Ignore it.
+                    continue;
+                end
+                
                 for i = 1:obj.itemCount-1
                     if UIMatrixUtils.userHasRatedItem(obj.testSet, userIndex, topItemIndices(i), obj.nilElement)
                         members = ismember((i+1):obj.itemCount, itemsUserHasNotRated);
@@ -150,6 +156,8 @@ classdef (Abstract) AbstractExperiment < handle
                 userAllRatingCount = UIMatrixUtils.getNumberOfRatingsOfUser(allData, userIndex, obj.nilElement);
                 totalCpp = totalCpp + correctlyPlacedCount/(userTestRatingCount*(obj.itemCount-userAllRatingCount));
                 countUser = countUser + 1;
+                cpp = totalCpp / countUser;
+                disp(cpp);
             end
             
             cpp = totalCpp / countUser;
