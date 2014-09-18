@@ -50,5 +50,17 @@ classdef ItemBasedKNNTest < matlab.unittest.TestCase
             knnTest.calculateErrorUsingMatlabKNN(1);
         end
         
+        function shouldCalculatePredictionCorrectlyUsingCosine(testCase)
+           baseSet = [4 0 3 5; 0 5 4 0; 5 4 2 0; 2 4 0 3; 3 4 5 0]; 
+           testSet = zeros(5, 4);
+           knnTest = ItemBasedKNN.createNewWithDatasets(baseSet, testSet); 
+           knnTest.setSimilarityCalculatorTo(Similarity.COSINE)
+           knnTest.calculateItem2ItemSimilarities;
+           knnTest.k = 2;
+           prediction = knnTest.predict(3, 4);
+           
+           testCase.verifyEqual(prediction, 3.9024, 'AbsTol', 0.001);
+        end
+        
     end
 end

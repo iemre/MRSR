@@ -29,7 +29,7 @@ classdef Similarity < handle
             for i = 1:length(obj.userAverageRatings)
                 fprintf('Calculating user average #%d\n', i);
                 ratingIndexes = data(i,:) ~= obj.nilElement;
-                userAverage = sum(data(i, ratingIndexes)) / length(ratingIndexes);
+                userAverage = mean(data(i, ratingIndexes));
                 obj.userAverageRatings(i) = userAverage;
             end
         end
@@ -147,12 +147,8 @@ classdef Similarity < handle
             item1 = data(:, item1Index);
             item2 = data(:, item2Index);
             
-            item1Indices = item1 ~= obj.nilElement;
-            item2Indices = item2 ~= obj.nilElement;
-            commonIndices = item1Indices & item2Indices;
-            
-            nominator = item1(commonIndices)' * item2(commonIndices);
-            denominator = sqrt(sum(item1(commonIndices).^2)) * sqrt(sum(item2(commonIndices).^2));
+            nominator = dot(item1, item2);
+            denominator = norm(item1) * norm(item2);            
 
             result = nominator/denominator;
         end        

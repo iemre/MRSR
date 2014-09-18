@@ -18,45 +18,6 @@ classdef ItemBasedKNN < AbstractExperiment
     
 
     methods (Access = private)
-              
-        function [prediction] = predict(obj, userIndex, itemIndex)
-            % This method calculates the prediction of the given user's rating
-            % on given item at itemIndex.
-            % Note that this function assumes similarities across 
-            % all items are already calculated.
-            
-            neighbourhood = obj.similarItemIndexes{itemIndex};
-            kNearestNeighbours = zeros(1, obj.k);
-            ratedItemCount = 1;
-
-            for j = 1:length(neighbourhood)
-                if UIMatrixUtils.userHasRatedItem(obj.baseSet, userIndex, neighbourhood(j), obj.nilElement)
-                    kNearestNeighbours(ratedItemCount) = neighbourhood(j);
-                    ratedItemCount = ratedItemCount + 1;
-                    if ratedItemCount > obj.k
-                        break;
-                    end
-                end
-            end
-
-            nominator = 0;
-            denominator = 0;
-
-            for j = 1:length(kNearestNeighbours)
-                if kNearestNeighbours(j) == 0
-                    continue;
-                end
-                similarItemIndex = obj.similarItemIndexes{itemIndex} == kNearestNeighbours(j);
-                similarity = obj.similarities{itemIndex}(similarItemIndex);
-                nominator = nominator + similarity * obj.baseSet(userIndex, kNearestNeighbours(j));
-                denominator = denominator + abs(similarity);
-            end
-
-            prediction = nominator/denominator;
-            if isnan(prediction) 
-                prediction = nan;
-            end
-        end
         
         function items = getMostSimilarUnratedItems(obj, userIndex, ratedItemIndices, n)
             allSimItemIndices = [];
@@ -135,6 +96,45 @@ classdef ItemBasedKNN < AbstractExperiment
     
     
     methods
+        
+        function [prediction] = predict(obj, userIndex, itemIndex)
+            % This method calculates the prediction of the given user's rating
+            % on the given item at itemIndex.
+            % This function assumes similarities across 
+            % all items are already calculated.
+            
+            neighbourhood = obj.similarItemIndexes{itemIndex};
+            kNearestNeighbours = zeros(1, obj.k);
+            ratedItemCount = 1;
+
+            for j = 1:length(neighbourhood)
+                if UIMatrixUtils.userHasRatedItem(obj.baseSet, userIndex, neighbourhood(j), obj.nilElement)
+                    kNearestNeighbours(ratedItemCount) = neighbourhood(j);
+                    ratedItemCount = ratedItemCount + 1;
+                    if ratedItemCount > obj.k
+                        break;
+                    end
+                end
+            end
+
+            nominator = 0;
+            denominator = 0;
+
+            for j = 1:length(kNearestNeighbours)
+                if kNearestNeighbours(j) == 0
+                    continue;
+                end
+                similarItemIndex = obj.similarItemIndexes{itemIndex} == kNearestNeighbours(j);
+                similarity = obj.similarities{itemIndex}(similarItemIndex);
+                nominator = nominator + similarity * obj.baseSet(userIndex, kNearestNeighbours(j));
+                denominator = denominator + abs(similarity);
+            end
+
+            prediction = nominator/denominator;
+            if isnan(prediction) 
+                prediction = nan;
+            end
+        end
         
         function topNList = generateTopNListForUser(obj, n, userIndex)
             ratedItemIndices = UIMatrixUtils.getItemsRatedByUser(obj.baseSet, userIndex, obj.nilElement);
@@ -243,6 +243,7 @@ classdef ItemBasedKNN < AbstractExperiment
                 fprintf('Calculating similar items to item #%d\n', i);
                 for j = 1:obj.itemCount
                     if i == j
+                        % Ekstrand - page 101 (The same item is not considered)
                         obj.similarities{i}(j) = 0;
                         continue;
                     end
@@ -342,7 +343,7 @@ classdef ItemBasedKNN < AbstractExperiment
         end
         
         function prediction = calculateFullPrediction(obj, userIndex, itemIndex)
-            [neighbourIndexes, distances] = knnsearch(obj.baseSet', obj.baseSet(:, itemIndex)', 'distance', 'correlation', 'k', obj.itemCount);
+            [neighbourIndexes, distances] = knnsearch(obj.baseSet', obj.baseSet(:, itemIndex)', 'distance', 'cosine', 'k', obj.itemCount);
             neighbourIndexes = [neighbourIndexes(2:end), itemIndex];
             distances = distances(2:end);
             similarityRates = [1 - distances, 0];
