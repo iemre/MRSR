@@ -94,47 +94,6 @@ classdef BaselineRecommender < AbstractExperiment
             obj.result.setRMSE(totalSquaredError, totalPrediction);
             obj.result
         end
-       
-        function [itemIndices, hits] = getTopHitItems(obj, data)
-            % Returns the most hit (picked) item indices and the number of
-            % hits (picks)
-                                                    
-            missingRatingsOfItems = sum(data(:,:) == obj.nilElement);
-            [sortedMissingRatings,itemIndices] = sort(missingRatingsOfItems);
-            hits = ones(1, obj.itemCount)*obj.userCount - sortedMissingRatings;
-            
-        end
-    
-        function cpp = calculateCPPByMaxF(obj)
-            [topHitItemIndices, ~] = obj.getTopHitItems(obj.baseSet);
-            allData = UIMatrixUtils.mergeBaseAndTestSet(obj.baseSet, obj.testSet, obj.nilElement);
-            
-            totalCpp = 0;
-            countUser = 0;
-            for userIndex = 1:obj.userCount
-                correctlyPlacedCount = 0;
-                fprintf('processing user %d\n', userIndex);
-                itemsUserHasNotRated = find(allData(userIndex, :) == obj.nilElement);
-                if isempty(itemsUserHasNotRated)
-                    continue;
-                end
-                for i = 1:obj.itemCount-1
-                    if UIMatrixUtils.userHasRatedItem(obj.testSet, userIndex, topHitItemIndices(i), obj.nilElement)
-                        members = ismember((i+1):obj.itemCount, itemsUserHasNotRated);
-                        correctlyPlacedCount = correctlyPlacedCount + sum(members);
-                    end
-                end      
-                
-                userTestRatingCount = UIMatrixUtils.getNumberOfRatingsOfUser(obj.testSet, userIndex, obj.nilElement);
-                userAllRatingCount = UIMatrixUtils.getNumberOfRatingsOfUser(allData, userIndex, obj.nilElement);
-                
-                totalCpp = totalCpp + correctlyPlacedCount/(userTestRatingCount*(obj.itemCount-userAllRatingCount));
-                countUser = countUser + 1;
-            end
-            
-            cpp = totalCpp / countUser;
-            disp(cpp);
-        end
                 
     end
     
