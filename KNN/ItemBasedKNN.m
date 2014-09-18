@@ -301,11 +301,6 @@ classdef ItemBasedKNN < AbstractExperiment
             obj.calculateErrorMetricsWithoutSimilarity();
         end
         
-        function MAE = getLastMAE(obj)
-            MAE = obj.lastTotalError / obj.lastPredictionCount;
-            disp(MAE)
-        end
-        
         function obj = calculateSimilaritiesUsingMatlabKNN(obj)
             for itemIndex = 1:obj.itemCount
                 fprintf('Calculating similar items to item %d\n', itemIndex);
