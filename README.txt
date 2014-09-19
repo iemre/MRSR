@@ -17,29 +17,6 @@ GNU General Public License for more details.
 
 This folder contains some files of MATLAB code used for the experiments in the M.Sc. thesis titled "A Recommender System Based on Sparse Dictionary Coding" by Ismail Emre Kartoglu (King's College London, 2014)
 
-The folder structure is as follows:
-
-/root
-	AbstractExperiment.m
-	Result.m
-	runalltests.m
-	UIMatrixUtils.m
-	/BaselineRecommender
-		-> BaselineRecommender.m
-	/KNN
-		-> ItemBasedKNN.m
-		-> Similarity.m
-	/PCA
-		-> PCARecommender.m
-	/RandomRecommender
-		-> RandomRecommender.m
-	/SparseCoding
-		-> AbstractSparseCoderExperiment.m
-		-> ItemBasedSparseCoderExperiment.m
-		-> SparseCoder.m
-		-> UserBasedSparseCoderExperiment.m
-	/tests 
-
 
 
 Important note: 
