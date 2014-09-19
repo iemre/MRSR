@@ -33,15 +33,15 @@ http://sparselab.stanford.edu/
 
 Example 1 - Using the item-based KNN recommender:
 ==========================================================
-exp = ItemBasedKNN.createNewWithDatasets(baseSet, testSet)
-exp.k = 10
-exp.calculateErrorMetrics(Similarity.PEARSON)
+test = ItemBasedKNN.createNewWithDatasets(baseSet, testSet)
+test.k = 10
+test.calculateErrorMetrics(Similarity.PEARSON)
 
 
 Example 2 - Using the item-based sparse coding recommender:
 ==========================================================
-exp = ItemBasedSparseCoderExperiment.createItemBasedExperiment(baseSet, testSet)
-exp.calculateErrorByColumnRemoval;
+test = ItemBasedSparseCoderExperiment.createItemBasedExperiment(baseSet, testSet)
+test.calculateErrorByColumnRemoval;
 numberOfUsers = 943;
-exp.showPrecisionAndRecall(10, [1:numberOfUsers])
+test.showPrecisionAndRecall(10, [1:numberOfUsers])
 
