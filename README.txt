@@ -34,6 +34,7 @@ http://sparselab.stanford.edu/
 Example 1 - Using the item-based KNN recommender:
 ==========================================================
 exp = ItemBasedKNN.createNewWithDatasets(baseSet, testSet)
+exp.k = 10
 exp.calculateErrorMetrics(Similarity.PEARSON)
 
 
