@@ -13,15 +13,16 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 =========================================================================
-
-
 This folder contains some files of MATLAB code used for the experiments in the M.Sc. thesis titled "A Recommender System Based on Sparse Dictionary Coding" by Ismail Emre Kartoglu (King's College London, 2014)
 
-
+MRSR is a set of MATLAB classes for recommender systems research.
+The idea is to gather all the recommender system algorithms and make reiable comparisons.
+The user can test their own algorithm by inheriting the AbstractExperiment class and implementing the abstract methods.
+Example use cases are described in what follows.
 
 Important note: 
 =======================
-To be able to run a sparse coder experiment, you must download the sparse coders encapsulated by the SparseCoder.m file.
+To be able to run a sparse coder experiment, the user must download the sparse coders encapsulated by the SparseCoder.m file.
 
 The user can download the PC/BC-DIM algorithm using this link: http://www.inf.kcl.ac.uk/staff/mike/Code/sparse_classification.zip 
 
@@ -47,10 +48,10 @@ test.showPrecisionAndRecall(10, [1:numberOfUsers])
 
 
 
-To measure the performance of your own algorithm:
+To measure the performance of the user's own algorithm:
 ==========================================================
 
-Create your own class, make it inherit the AbstractExperiment class, and implement the following abstract methods in AbstractExperiment class:
+Create a class, make it inherit the AbstractExperiment class, and implement the following abstract methods in AbstractExperiment class:
 
        topNList = generateTopNListForUser(obj, n, userIndex) % to generate a top-n list for all sets
        topNList = generateTopNListForTestSetForUser(obj, n, userIndex) % to generate a top-n list for the test set (i.e. list of items not contained in the base set)
@@ -58,8 +59,8 @@ Create your own class, make it inherit the AbstractExperiment class, and impleme
        initialiseForCPP(obj) % may be left empty (still needs to be implemented)
        
        
-After implementing these methods, you can measure the CPP, recall, precision, MAE and RMSE of your algorithm and safely compare 
-your results to other methods.
+After implementing these methods, the user can measure the CPP, recall, precision, MAE and RMSE of their own algorithm and safely compare 
+their results to other methods.
 
 Please contact me if you have any questions: ismailemrekartoglu@gmail.com
 
