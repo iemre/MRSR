@@ -1,5 +1,3 @@
-% This class implements a simple baseline recommender
-
 classdef MaxF < AbstractExperiment
     
     properties
