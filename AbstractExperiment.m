@@ -48,6 +48,9 @@ classdef (Abstract) AbstractExperiment < handle
        
        
         function obj = showTopNCoverage(obj, n, userIndices)
+            % generates top-n list of recommended items for each user in the range userIndices
+            % and shows the coverage of recommended items
+            
             obj.result.resetItemHits(obj.itemCount);
             i = 1;
             for userIndex = userIndices
@@ -62,6 +65,9 @@ classdef (Abstract) AbstractExperiment < handle
         end
         
         function obj = showPrecisionAndRecall(obj, n, userIndices)
+            % generates top-n list of recommended items for each user in the range userIndices
+            % and shows the average recall, precision and F1
+            
             obj.result.resetItemHits(obj.itemCount);
             i = 1;
             totalCount = 0;
@@ -113,7 +119,9 @@ classdef (Abstract) AbstractExperiment < handle
 
         function cpp = calculateCPP(obj, reconstruct)
             % This method calculates the CPP (Correctly Placed Pairs)
-            % measure
+            % measure defined in "Random Walks in Recommender Systems: Exact Computation and Simulations" Cooper et al.
+            % and in "Random-Walk Computation of Similarities between Nodes of a Graph with Application
+            % to Collaborative Recommendation" as degree of agreement
             
             allData = UIMatrixUtils.mergeBaseAndTestSet(obj.baseSet, obj.testSet, obj.nilElement);
             
