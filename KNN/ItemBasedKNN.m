@@ -337,7 +337,7 @@ classdef ItemBasedKNN < AbstractExperiment
             obj.calculateErrorMetricsWithoutSimilarity();
         end
         
-        function prediction = calculateFullPrediction(obj, userIndex, itemIndex)
+        function prediction = makePrediction(obj, userIndex, itemIndex)
             [neighbourIndexes, distances] = knnsearch(obj.baseSet', obj.baseSet(:, itemIndex)', 'distance', 'cosine', 'k', obj.itemCount);
             neighbourIndexes = [neighbourIndexes(2:end), itemIndex];
             distances = distances(2:end);

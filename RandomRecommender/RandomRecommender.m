@@ -40,7 +40,7 @@ classdef RandomRecommender < AbstractExperiment
         end
         function topNList = generateTopNListForTestSetForUser(obj, n, userIndex)
         end
-        function prediction = calculateFullPrediction(obj, userIndex, itemIndex)
+        function prediction = makePrediction(obj, userIndex, itemIndex)
         end
         function initialiseForCPP(obj)
         end

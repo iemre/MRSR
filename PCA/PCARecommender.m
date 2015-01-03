@@ -29,7 +29,7 @@ classdef PCARecommender < AbstractExperiment
         function topNList = generateTopNListForTestSetForUser(obj, n, userIndex)
         %not implemented
         end
-        function prediction = calculateFullPrediction(obj, userIndex, itemIndex);
+        function prediction = makePrediction(obj, userIndex, itemIndex);
         %not implemented
         end
        

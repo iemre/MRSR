@@ -43,7 +43,7 @@ classdef MaxF < AbstractExperiment
             end
         end
         
-        function prediction = calculateFullPrediction(obj, userIndex, itemIndex)
+        function prediction = makePrediction(obj, userIndex, itemIndex)
             % not implemented
         end
         

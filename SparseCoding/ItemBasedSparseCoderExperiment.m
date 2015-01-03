@@ -561,7 +561,7 @@ classdef ItemBasedSparseCoderExperiment < AbstractSparseCoderExperiment
             end
         end
         
-        function prediction = calculateFullPrediction(obj, userIndex, itemIndex)
+        function prediction = makePrediction(obj, userIndex, itemIndex)
             dictionary = obj.baseSet;
             [dictionary, selectedColumns] = obj.removeColumnsNotHavingRatingForUser(dictionary, userIndex, itemIndex);
             dictionaryItemIndex = find(selectedColumns == itemIndex);

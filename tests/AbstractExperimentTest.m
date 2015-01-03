@@ -19,7 +19,7 @@ classdef AbstractExperimentTest < matlab.unittest.TestCase
     methods (Test)    
         
         function shouldSetDefaultMissingValueAsZero(testCase)
-            exp = UserBasedSparseCoderExperiment.createUserBasedExperiment(NaN, NaN);
+            exp = ItemBasedSparseCoderExperiment.createItemBasedExperiment(NaN, NaN);
 
             testCase.verifyEqual(exp.nilElement, 0);
         end

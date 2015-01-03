@@ -22,7 +22,7 @@ classdef (Abstract) AbstractExperiment < handle
    methods (Abstract)
        topNList = generateTopNListForUser(obj, n, userIndex)
        topNList = generateTopNListForTestSetForUser(obj, n, userIndex)
-       prediction = calculateFullPrediction(obj, userIndex, itemIndex);
+       prediction = makePrediction(obj, userIndex, itemIndex);
        initialiseForCPP(obj)
    end
    
@@ -170,6 +170,27 @@ classdef (Abstract) AbstractExperiment < handle
             
             cpp = totalCpp / countUser;
             obj.result.CPP = cpp;
+            disp(obj.result);
+        end
+        
+        function calculatePredictiveAccuracy(obj)
+            % This function calculates MAE and RMSE.
+            % It predicts the values in the test set, and gives
+            % you the error (MAE, RMSE)
+            
+            totalError = 0;
+            predictionCount = 0;
+            for i = 1:obj.userCount
+                for j = 1:obj.itemCount
+                    if UIMatrixUtils.userHasRatedItem(obj.testSet, i, j, obj.nilElement)
+                        prediction = obj.makePrediction(i, j);
+                        totalError = totalError + abs(prediction - obj.testSet(i, j));
+                        predictionCount = predictionCount + 1;
+                    end
+                end
+            end
+            
+            obj.result.setErrorMetrics(obj, totalError, predictionCount);
             disp(obj.result);
         end
         
