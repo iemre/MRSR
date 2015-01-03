@@ -36,7 +36,7 @@ Example 1 - Using the item-based KNN recommender:
 ==========================================================
 test = ItemBasedKNN.createNewWithDatasets(baseSet, testSet)
 test.k = 10
-test.calculatePredictiveAccuracy; // measures MAE and RMSE
+test.calculatePredictiveAccuracy; % calculate MAE and RMSE
 numberOfUsers = 943;
 test.showPrecisionAndRecall(10, [1:numberOfUsers)]
 
@@ -44,9 +44,9 @@ test.showPrecisionAndRecall(10, [1:numberOfUsers)]
 Example 2 - Using the item-based sparse coding recommender:
 ==========================================================
 test = ItemBasedSparseCoderExperiment.createItemBasedExperiment(baseSet, testSet)
-test.calculatePredictiveAccuracy;
+test.calculatePredictiveAccuracy; % calculate MAE and RMSE
 numberOfUsers = 943;
-test.showPrecisionAndRecall(10, [1:numberOfUsers]) // measures MAE and RMSE
+test.showPrecisionAndRecall(10, [1:numberOfUsers]) 
 
 
 
