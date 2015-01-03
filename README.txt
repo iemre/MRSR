@@ -48,6 +48,15 @@ test.calculatePredictiveAccuracy; % calculate MAE and RMSE
 numberOfUsers = 943;
 test.showPrecisionAndRecall(10, [1:numberOfUsers]) 
 
+% The above code will print the results.
+% However, the user might want to access the results as follows:
+
+mae = test.result.MAE
+rmse = test.result.RMSE
+cpp = test.result.cppRate
+recall = test.result.recall
+precision = test.result.precision
+f1 = test.result.f1
 
 
 To measure the performance of the user's own algorithm:
