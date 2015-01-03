@@ -36,15 +36,17 @@ Example 1 - Using the item-based KNN recommender:
 ==========================================================
 test = ItemBasedKNN.createNewWithDatasets(baseSet, testSet)
 test.k = 10
-test.calculateErrorMetrics(Similarity.PEARSON)
+test.calculatePredictiveAccuracy; // measures MAE and RMSE
+numberOfUsers = 943;
+test.showPrecisionAndRecall(10, [1:numberOfUsers)]
 
 
 Example 2 - Using the item-based sparse coding recommender:
 ==========================================================
 test = ItemBasedSparseCoderExperiment.createItemBasedExperiment(baseSet, testSet)
-test.calculateErrorByColumnRemoval;
+test.calculatePredictiveAccuracy;
 numberOfUsers = 943;
-test.showPrecisionAndRecall(10, [1:numberOfUsers])
+test.showPrecisionAndRecall(10, [1:numberOfUsers]) // measures MAE and RMSE
 
 
 
@@ -55,7 +57,7 @@ Create a class, make it inherit the AbstractExperiment class, and implement the 
 
        topNList = generateTopNListForUser(obj, n, userIndex) % to generate a top-n list for all sets
        topNList = generateTopNListForTestSetForUser(obj, n, userIndex) % to generate a top-n list for the test set (i.e. list of items not contained in the base set)
-       prediction = calculateFullPrediction(obj, userIndex, itemIndex); % to make a prediction
+       prediction = makePrediction(obj, userIndex, itemIndex); % to make a prediction
        initialiseForCPP(obj) % may be left empty (still needs to be implemented)
        
        
