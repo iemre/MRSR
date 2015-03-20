@@ -65,11 +65,22 @@ To measure the performance of the user's own algorithm:
 
 Create a class, make it inherit the AbstractExperiment class, and implement the following abstract methods in AbstractExperiment class:
 
-       topNList = generateTopNListForUser(obj, n, userIndex) % to generate a top-n list for all sets
-       topNList = generateTopNListForTestSetForUser(obj, n, userIndex) % to generate a top-n list for the test set (i.e. list of items not contained in the base set)
-       prediction = makePrediction(obj, userIndex, itemIndex); % to make a prediction
-       initialize(obj) % may be left empty (still needs to be implemented)
+       % Generate a top-n list for the given user. The list may contain
+       % an item that is already reated.
+       topNList = generateTopNListForUser(obj, n, userIndex); 
        
+       % Geneate a top-n list for the given user. The list may contain
+       % only the unrated items.
+       topNList = generateTopNListForTestSetForUser(obj, n, userIndex);
+       
+       % Predict the rating of the given user userIndex for the item with itemIndex.
+       prediction = makePrediction(obj, userIndex, itemIndex);
+       
+       % Make initial calculations. This may be similarity matrix
+       % calculation for k-NN algorithm, or sparse reconstruction for
+       % sparse coding. Some of the evaluation methods below call this
+       % function before they start their job.
+       initialize(obj);       
        
 After implementing these methods, the user can measure the CPP, recall, precision, MAE and RMSE of their own algorithm and safely compare 
 their results to other methods.
