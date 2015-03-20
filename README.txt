@@ -66,7 +66,7 @@ To measure the performance of the user's own algorithm:
 Create a class, make it inherit the AbstractExperiment class, and implement the following abstract methods in AbstractExperiment class:
 
        % Generate a top-n list for the given user. The list may contain
-       % an item that is already reated.
+       % an item that is already rated.
        topNList = generateTopNListForUser(obj, n, userIndex); 
        
        % Geneate a top-n list for the given user. The list may contain
