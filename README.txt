@@ -82,7 +82,7 @@ Create a class, make it inherit the AbstractExperiment class, and implement the 
        % function before they start their job.
        initialize(obj);       
        
-After implementing these methods, the user can measure the CPP, recall, precision, MAE and RMSE of their own algorithm and safely compare 
+After implementing these methods, the user can measure the personalisation, CPP, recall, precision, MAE and RMSE of their own algorithm and safely compare 
 their results to other methods.
 
 Please contact ismailemrekartoglu at gmail.com if you have any questions/suggestions.
