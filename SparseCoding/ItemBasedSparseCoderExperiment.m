@@ -62,8 +62,10 @@ classdef ItemBasedSparseCoderExperiment < AbstractSparseCoderExperiment
     
     methods
         
-        function initialiseForCPP(obj)
-            obj.reconstructWithoutNormalisation;
+        function initialize(obj)
+            if isempty(obj.sparseRepresentation)
+                obj.reconstructWithoutNormalisation;
+            end
         end
         
         function dictionary = normaliseDictionary(obj, dictionary)
@@ -309,37 +311,6 @@ classdef ItemBasedSparseCoderExperiment < AbstractSparseCoderExperiment
             
             novelty = totalNovelty/obj.userCount;
             disp(novelty);
-        end
-        
-        function personalisation = calculatePersonalisation(obj, reconstruct, n)
-            if reconstruct
-                obj.reconstructWithoutNormalisation;
-            end
-            
-            topItemsForUsers = zeros(obj.userCount, n);
-            for userIndex = 1:obj.userCount
-                userRatings = obj.reconstruction(userIndex, :);
-                [~, topItems] = sort(userRatings, 'descend');
-                topItems = topItems(1:n);
-                topItemsForUsers(userIndex, :) = topItems;
-            end
-            
-            totalPersonal = 0;
-            totalCount = 0;
-            for i = 1:obj.userCount
-                for j = 1:obj.userCount
-                    if i == j
-                        continue;
-                    end
-                    totalCount = totalCount + 1;
-                    common = ismember(topItemsForUsers(i,:), topItemsForUsers(j,:));
-                    common = sum(common);
-                    totalPersonal = totalPersonal + (1-common/n);
-                end
-            end
-            
-            personalisation = totalPersonal/totalCount;
-            disp(personalisation);
         end
         
         function obj = calculateErrorWithoutReconstruction(obj)

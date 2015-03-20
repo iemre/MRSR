@@ -29,7 +29,7 @@ classdef BaselineRecommender < AbstractExperiment
         function prediction = makePrediction(obj, userIndex, itemIndex)
             % not implemented
         end
-        function initialiseForCPP(obj)
+        function initialize(obj)
             % not implemented
         end
        

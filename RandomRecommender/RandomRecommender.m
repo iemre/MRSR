@@ -42,7 +42,7 @@ classdef RandomRecommender < AbstractExperiment
         end
         function prediction = makePrediction(obj, userIndex, itemIndex)
         end
-        function initialiseForCPP(obj)
+        function initialize(obj)
         end
        
         function obj = calculateErrors(obj)

@@ -3,6 +3,8 @@
 % experiments. 
 %
 % All experiment classes inherit this AbstractExperiment class.
+%
+% Default missing value is zero.
 % =====================================================================
 classdef (Abstract) AbstractExperiment < handle
    properties
@@ -20,10 +22,22 @@ classdef (Abstract) AbstractExperiment < handle
    end
    
    methods (Abstract)
-       topNList = generateTopNListForUser(obj, n, userIndex)
-       topNList = generateTopNListForTestSetForUser(obj, n, userIndex)
+       % Generate a top-n list for the given user. The list may contain
+       % an item that is already reated.
+       topNList = generateTopNListForUser(obj, n, userIndex); 
+       
+       % Geneate a top-n list for the given user. The list may contain
+       % only the unrated items.
+       topNList = generateTopNListForTestSetForUser(obj, n, userIndex);
+       
+       % Predict the rating of the given user userIndex for the item with itemIndex.
        prediction = makePrediction(obj, userIndex, itemIndex);
-       initialiseForCPP(obj)
+       
+       % Make initial calculations. This may be similarity matrix
+       % calculation for k-NN algorithm, or sparse reconstruction for
+       % sparse coding. Some of the evaluation methods below call this
+       % function before they start their job.
+       initialize(obj);
    end
    
    methods
@@ -48,7 +62,7 @@ classdef (Abstract) AbstractExperiment < handle
        
        
         function obj = showTopNCoverage(obj, n, userIndices)
-            % generates top-n list of recommended items for each user in the range userIndices
+            % Generates top-n list of recommended items for each user in the range userIndices
             % and shows the coverage of recommended items
             
             obj.result.resetItemHits(obj.itemCount);
@@ -65,7 +79,7 @@ classdef (Abstract) AbstractExperiment < handle
         end
         
         function obj = showPrecisionAndRecall(obj, n, userIndices)
-            % generates top-n list of recommended items for each user in the range userIndices
+            % Generates top-n list of recommended items for each user in the range userIndices
             % and shows the average recall, precision and F1
             
             obj.result.resetItemHits(obj.itemCount);
@@ -126,7 +140,7 @@ classdef (Abstract) AbstractExperiment < handle
             allData = UIMatrixUtils.mergeBaseAndTestSet(obj.baseSet, obj.testSet, obj.nilElement);
             
             if reconstruct
-                obj.initialiseForCPP;
+                obj.initialize;
             end
             
             totalCpp = 0;
@@ -192,6 +206,35 @@ classdef (Abstract) AbstractExperiment < handle
             
             obj.result.setErrorMetrics(obj, totalError, predictionCount);
             disp(obj.result);
+        end
+        
+        function personalisation = calculatePersonalisation(obj, n)
+            obj.initialize;
+            
+            topItemsForUsers = zeros(obj.userCount, n);
+            for userIndex = 1:obj.userCount
+                fprintf('generating list for user %d\n', userIndex);
+                topItems = obj.generateTopNListForUser(n, userIndex);
+                topItemsForUsers(userIndex, :) = topItems;
+            end
+            
+            totalPersonal = 0;
+            totalCount = 0;
+            for i = 1:obj.userCount
+                fprintf('processing user %d\n', i);
+                for j = 1:obj.userCount
+                    if i == j
+                        continue;
+                    end
+                    totalCount = totalCount + 1;
+                    common = ismember(topItemsForUsers(i,:), topItemsForUsers(j,:));
+                    common = sum(common);
+                    totalPersonal = totalPersonal + (1-common/n);
+                end
+            end
+            
+            personalisation = totalPersonal/totalCount;
+            disp(personalisation);
         end
         
    end
