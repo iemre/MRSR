@@ -37,6 +37,7 @@ Example 1 - Using the item-based KNN recommender:
 test = ItemBasedKNN.createNewWithDatasets(baseSet, testSet)
 test.k = 10
 test.calculatePredictiveAccuracy; % calculate MAE and RMSE
+test.setSimilarityCalculatorTo(Similarity.COSINE);
 numberOfUsers = 943;
 test.showPrecisionAndRecall(10, [1:numberOfUsers)]
 
@@ -67,7 +68,7 @@ Create a class, make it inherit the AbstractExperiment class, and implement the 
        topNList = generateTopNListForUser(obj, n, userIndex) % to generate a top-n list for all sets
        topNList = generateTopNListForTestSetForUser(obj, n, userIndex) % to generate a top-n list for the test set (i.e. list of items not contained in the base set)
        prediction = makePrediction(obj, userIndex, itemIndex); % to make a prediction
-       initialiseForCPP(obj) % may be left empty (still needs to be implemented)
+       initialize(obj) % may be left empty (still needs to be implemented)
        
        
 After implementing these methods, the user can measure the CPP, recall, precision, MAE and RMSE of their own algorithm and safely compare 
