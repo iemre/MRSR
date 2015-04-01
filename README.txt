@@ -24,9 +24,9 @@ Important note:
 =======================
 To be able to run a sparse coder experiment, the user must download the sparse coders encapsulated by the SparseCoder.m file.
 
-The user can download the PC/BC-DIM algorithm using this link: http://www.inf.kcl.ac.uk/staff/mike/Code/sparse_classification.zip 
+The user can download an implementation of the PC/BC-DIM algorithm using this link: http://www.inf.kcl.ac.uk/staff/mike/Code/sparse_classification.zip 
 
-SolveDALM.m, SolveFISTA.m, SolveOMP.m, SolvePFP.m, and SolveSpaRSA.m algorithms/files can be downloaded using the following web pages (24/08/2014):
+SolveDALM.m, SolveFISTA.m, SolveOMP.m, SolvePFP.m, and SolveSpaRSA.m files can be downloaded using the following web pages (24/08/2014):
 
 http://www.eecs.berkeley.edu/~yang/software/l1benchmark/
 http://sparselab.stanford.edu/
