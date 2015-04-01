@@ -25,16 +25,6 @@ classdef Result < handle
             obj.itemHits = zeros(itemCount, 1);
         end
         
-        function obj = setErrorMetrics(obj, experiment, totalError, predictionCount)
-            obj.MAE = totalError / predictionCount;
-            range = (max(max(experiment.baseSet(:,:))) - min(min((experiment.baseSet(:, :)))));
-            obj.NMAE = obj.MAE / range;
-        end
-        
-        function obj = setRMSE(obj, totalSquaredError, predictionCount)
-            obj.RMSE = sqrt(totalSquaredError/predictionCount);
-        end
-        
         function increaseItemHitsInList(obj, topNList)
             for itemIndex = topNList
                 obj.itemHits(itemIndex) = obj.itemHits(itemIndex) + 1;
