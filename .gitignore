@@ -1,2 +1,5 @@
 *.mat
-SparseCoding/Solve*.m
+SparseCoding/SolveDALM.m
+SparseCoding/SolveOMP.m
+SparseCoding/SolveSpaRSA.m
+SparseCoding/SolveFISTA.m
