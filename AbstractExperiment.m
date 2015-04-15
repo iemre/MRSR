@@ -131,7 +131,7 @@ classdef (Abstract) AbstractExperiment < handle
             time = toc;
         end
 
-        function cpp = calculateCPP(obj, reconstruct)
+        function cpp = calculateCPP(obj)
             % This method calculates the CPP (Correctly Placed Pairs)
             % measure defined in "Random Walks in Recommender Systems: Exact Computation and Simulations" Cooper et al.
             % and in "Random-Walk Computation of Similarities between Nodes of a Graph with Application
@@ -139,9 +139,7 @@ classdef (Abstract) AbstractExperiment < handle
             
             allData = UIMatrixUtils.mergeBaseAndTestSet(obj.baseSet, obj.testSet, obj.nilElement);
             
-            if reconstruct
-                obj.initialize;
-            end
+            obj.initialize;
             
             totalCpp = 0;
             countUser = 0;
@@ -193,19 +191,26 @@ classdef (Abstract) AbstractExperiment < handle
             % you the error (MAE, RMSE)
             
             totalError = 0;
+            totalSquaredError = 0;
             predictionCount = 0;
             for i = 1:obj.userCount
                 for j = 1:obj.itemCount
                     if UIMatrixUtils.userHasRatedItem(obj.testSet, i, j, obj.nilElement)
                         prediction = obj.makePrediction(i, j);
+                        if isnan(prediction)
+                            fprintf('No prediction could be made for user-item (%d, %d)\n', i, j);
+                            continue;
+                        end
                         totalError = totalError + abs(prediction - obj.testSet(i, j));
+                        totalSquaredError = totalSquaredError + (prediction - obj.testSet(i, j))^2;
                         predictionCount = predictionCount + 1;
                     end
                 end
             end
             
-            obj.result.setErrorMetrics(obj, totalError, predictionCount);
-            disp(obj.result);
+            obj.result.MAE = totalError / predictionCount;
+            obj.result.RMSE = totalSquaredError / predictionCount;
+            display(obj.result);
         end
         
         function personalisation = calculatePersonalisation(obj, n)

@@ -13,6 +13,8 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 
 =========================================================================
+
+
 This folder contains some files of MATLAB code used for the experiments in the M.Sc. thesis titled "A Recommender System Based on Sparse Dictionary Coding" by Ismail Emre Kartoglu (King's College London, 2014)
 
 MRSR is a set of MATLAB classes for recommender systems research.
@@ -36,8 +38,8 @@ Example 1 - Using the item-based KNN recommender:
 ==========================================================
 test = ItemBasedKNN.createNewWithDatasets(baseSet, testSet)
 test.k = 10
-test.calculatePredictiveAccuracy; % calculate MAE and RMSE
 test.setSimilarityCalculatorTo(Similarity.COSINE);
+test.calculatePredictiveAccuracy; % calculate MAE and RMSE
 numberOfUsers = 943;
 test.showPrecisionAndRecall(10, [1:numberOfUsers)]
 
