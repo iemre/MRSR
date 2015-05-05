@@ -22,17 +22,20 @@ The idea is to gather all the recommender system algorithms and make reliable co
 The user can test their own algorithm by inheriting the AbstractExperiment class and implementing the abstract methods.
 Example use cases are described in what follows.
 
-Important note: 
+Important notes: 
 =======================
-To be able to run a sparse coder experiment, the user must download the sparse coders encapsulated by the SparseCoder.m file.
+1) To be able to run a sparse coder experiment, the user must download the sparse coders encapsulated by the SparseCoder.m file.
 
-The user can download an implementation of the PC/BC-DIM algorithm using this link: http://www.inf.kcl.ac.uk/staff/mike/Code/sparse_classification.zip 
+   The user can download an implementation of the PC/BC-DIM algorithm using this link: http://www.inf.kcl.ac.uk/staff/mike/Code/sparse_classification.zip 
 
-SolveDALM.m, SolveFISTA.m, SolveOMP.m, SolvePFP.m, and SolveSpaRSA.m files can be downloaded using the following web pages (24/08/2014):
+   SolveDALM.m, SolveFISTA.m, SolveOMP.m, SolvePFP.m, and SolveSpaRSA.m files can be downloaded using the following web pages (24/08/2014):
 
-http://www.eecs.berkeley.edu/~yang/software/l1benchmark/
-http://sparselab.stanford.edu/
+   http://www.eecs.berkeley.edu/~yang/software/l1benchmark/
+   http://sparselab.stanford.edu/
 
+   Update: PC/BC-DIM and PFP algorithms are now included in this project. 
+
+2) To run the unit tests, run the "runalltests.m" matlab file. Matlab's xUnit unit test library might need to be installed.
 
 Example 1 - Using the item-based KNN recommender:
 ==========================================================
@@ -81,7 +84,9 @@ Create a class, make it inherit the AbstractExperiment class, and implement the 
        % Make initial calculations. This may be similarity matrix
        % calculation for k-NN algorithm, or sparse reconstruction for
        % sparse coding. Some of the evaluation methods call this
-       % function before they start their job.
+       % function before they start their job. The user may leave this method
+       % empty. They may instead choose to add their initialization logic (if any)
+       % to other methods such as generateTopNListForTestSetForUser.
        initialize(obj);       
        
 After implementing these methods, the user can measure the personalisation, CPP, recall, precision, MAE and RMSE of their own algorithm and safely compare 
