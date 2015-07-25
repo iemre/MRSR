@@ -31,6 +31,16 @@ classdef Result < handle
             end
         end
         
+        function obj = setErrorMetrics(obj, experiment, totalError, predictionCount)
+            obj.MAE = totalError / predictionCount;
+            range = (max(max(experiment.baseSet(:,:))) - min(min((experiment.baseSet(:, :)))));
+            obj.NMAE = obj.MAE / range;
+        end
+        
+        function obj = setRMSE(obj, totalSquaredError, predictionCount)
+            obj.RMSE = sqrt(totalSquaredError/predictionCount);
+        end
+        
         function setCoverageRate(obj)
             indexes = find(obj.itemHits ~= 0);
             obj.coverageRate = length(indexes)/length(obj.itemHits);
