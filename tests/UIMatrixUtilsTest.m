@@ -151,6 +151,23 @@ classdef UIMatrixUtilsTest < matlab.unittest.TestCase
            
            testCase.verifyEqual(items, [3 5]);
        end
+       
+       function shouldGetAverageRatingOfUser(testCase)
+           baseSet = [0 0 2 0 5; 1 0 2 3 4; 34 3 4 1 0]; 
+           
+           result = UIMatrixUtils.getAverageRatingOfUser(baseSet, 1, 0);
+           
+           testCase.verifyEqual(result, 3.5);
+       end
+       
+       function shouldGetCustomerAverage(testCase)
+           baseSet = [0 0 2 0 5; 1 0 2 3 4; 34 3 4 1 0]; 
+           
+           result = UIMatrixUtils.getAverageRating(baseSet, 0);
+           
+           testCase.verifyEqual(result, 5.9);
+       end
+       
    end
    
 end

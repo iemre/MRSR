@@ -186,7 +186,16 @@ classdef UIMatrixUtils
         end
         
         function itemIndices = getItemsRatedByUser(matrix, userIndex, nilElement)
-            itemIndices = find(matrix(userIndex, :) ~= 0);
+            itemIndices = find(matrix(userIndex, :) ~= nilElement);
+        end
+        
+        function result = getAverageRatingOfUser(data, userIndex, nilElement)
+            userRatings = data(userIndex, :);
+            result = mean(userRatings(userRatings ~= nilElement));
+        end
+        
+        function result = getAverageRating(data, nilElement)
+            result = mean(data(data ~= nilElement));
         end
         
     end     
