@@ -22,6 +22,16 @@ The idea is to gather all the recommender system algorithms and make reliable co
 The user can test their own algorithm by inheriting the AbstractExperiment class and implementing the abstract methods.
 Example use cases are described in what follows.
 
+Recommender systems out of the box
+==================================
+1) A predictive recommender based on sparse dictionary coding.
+2) A top-n recommender based on sparse dictionary coding.
+3) A predictive recommender based on k-NN.
+4) A top-n recommender based on k-NN.
+5) A predictive recommender based on the matrix factorisation method introduced by Koren et al.
+6) A random recommender (to check a given recommender does not perform worse than a random recommender!).
+7) MaxF top-n recommender (simply recommends the top-hit items to every user, works surprisingly well on some metrics).
+
 Important notes: 
 =======================
 1) To be able to run a sparse coder experiment, the user must download the sparse coders encapsulated by the SparseCoder.m file.
