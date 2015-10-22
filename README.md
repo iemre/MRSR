@@ -1,3 +1,4 @@
+[![DOI](https://zenodo.org/badge/18878/iemre/MRSR.svg)](https://zenodo.org/badge/latestdoi/18878/iemre/MRSR)
 
 # License
 MATLAB Recommender System Research Software
