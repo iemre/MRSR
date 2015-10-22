@@ -1,5 +1,5 @@
 
-==============================LICENSE====================================
+# License
 MATLAB Recommender System Research Software
 Copyright (C) 2014  Ismail Emre Kartoglu
 
@@ -12,8 +12,6 @@ This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
-
-=========================================================================
 
 
 This folder contains some files of MATLAB code used for the experiments in the M.Sc. thesis titled "A Recommender System Based on Sparse Dictionary Coding" by Ismail Emre Kartoglu (King's College London, 2014)
