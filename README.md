@@ -24,11 +24,17 @@ Example use cases are described in what follows.
 Recommender systems out of the box
 ==================================
 1) A predictive recommender based on sparse dictionary coding.
+
 2) A top-n recommender based on sparse dictionary coding.
+
 3) A predictive recommender based on k-NN.
+
 4) A top-n recommender based on k-NN.
+
 5) A predictive recommender based on the matrix factorisation method introduced by Koren et al.
+
 6) A random recommender (to check a given recommender does not perform worse than a random recommender!).
+
 7) MaxF top-n recommender (simply recommends the top-hit items to every user, works surprisingly well on some metrics).
 
 Important notes: 
@@ -48,16 +54,18 @@ Important notes:
 
 Example 1 - Using the item-based KNN recommender:
 ==========================================================
+```
 test = ItemBasedKNN.createNewWithDatasets(baseSet, testSet)
 test.k = 10
 test.setSimilarityCalculatorTo(Similarity.COSINE);
 test.calculatePredictiveAccuracy; % calculate MAE and RMSE
 numberOfUsers = 943;
 test.showPrecisionAndRecall(10, [1:numberOfUsers)]
-
+```
 
 Example 2 - Using the item-based sparse coding recommender:
 ==========================================================
+```
 test = ItemBasedSparseCoderExperiment.createItemBasedExperiment(baseSet, testSet)
 test.calculatePredictiveAccuracy; % calculate MAE and RMSE
 numberOfUsers = 943;
@@ -72,13 +80,14 @@ cpp = test.result.cppRate
 recall = test.result.recall
 precision = test.result.precision
 f1 = test.result.f1
+```
 
 
 To measure the performance of the user's own algorithm:
 ==========================================================
 
 Create a class, make it inherit the AbstractExperiment class, and implement the following abstract methods in AbstractExperiment class:
-
+```
        % Generate a top-n list for the given user. The list may contain
        % an item that is already rated in the base (training) set.
        topNList = generateTopNListForUser(obj, n, userIndex); 
@@ -97,7 +106,7 @@ Create a class, make it inherit the AbstractExperiment class, and implement the 
        % empty. They may instead choose to add their initialization logic (if any)
        % to other methods such as generateTopNListForTestSetForUser.
        initialize(obj);       
-       
+```
 After implementing these methods, the user can measure the personalisation, CPP, recall, precision, MAE and RMSE of their own algorithm and safely compare 
 their results to other methods.
 
