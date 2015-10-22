@@ -1,4 +1,3 @@
-<a href="http://dx.doi.org/10.5281/zenodo.32521"><img src="https://zenodo.org/badge/doi/10.5281/zenodo.32521.svg" alt="10.5281/zenodo.32521"></a>
 
 ==============================LICENSE====================================
 MATLAB Recommender System Research Software
