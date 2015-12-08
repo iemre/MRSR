@@ -48,7 +48,7 @@ Important notes:
    http://www.eecs.berkeley.edu/~yang/software/l1benchmark/
    http://sparselab.stanford.edu/
 
-   Update: PC/BC-DIM and PFP algorithms are now included in this project. 
+   **Update:** PC/BC-DIM and PFP algorithms are now included in this project. 
 
 2) To run the unit tests, run the "runalltests.m" matlab file. Matlab's xUnit unit test library might need to be installed.
 
