@@ -63,6 +63,8 @@ numberOfUsers = 943;
 test.showPrecisionAndRecall(10, [1:numberOfUsers)]
 ```
 
+Here ```baseSet``` is the training set (User-Item matrix), and ```testSet``` is the test User-Item matrix (ratings removed from the training set). 
+
 Example 2 - Using the item-based sparse coding recommender:
 ==========================================================
 ```
