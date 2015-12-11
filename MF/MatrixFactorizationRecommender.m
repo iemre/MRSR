@@ -7,6 +7,15 @@ classdef MatrixFactorizationRecommender < AbstractExperiment
    
     properties
         predictionMatrix = [];
+        
+        % tune this during the training phase
+        lambda = 4;
+        
+        % tune this during the training phase
+        featureCount = 10;
+        
+        % set to 1 if you want the prediction matrix to be rounded
+        roundPredictions = 0 
     end
     
     methods (Access = private)
@@ -41,8 +50,10 @@ classdef MatrixFactorizationRecommender < AbstractExperiment
         function initialize(obj)
             L_train = obj.baseSet ~= obj.nilElement;
             Rating_train = obj.baseSet;
-            mf_main;
-            %obj.predictionMatrix = round(P);
+            P = mf_main(obj.lambda, obj.featureCount, L_train, Rating_train);
+            if (obj.roundPredictions > 0 )
+                obj.predictionMatrix = round(P);
+            end
             obj.predictionMatrix = P;
             obj.predictionMatrix(obj.predictionMatrix > obj.maxRating) = obj.maxRating;
         end

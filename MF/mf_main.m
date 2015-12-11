@@ -10,13 +10,11 @@
 %           "Matrix factorization techniques for recommender systems."
 %           Computer 8 (2009): 30-37.
 %
-
+function P = mf_main(lambda, feat_num, L_train, Rating_train)
 R = L_train;
 Y = Rating_train;
 
 [item_num,user_num] = size(R);
-lambda = 4;
-feat_num = 10;
 
 P = mf_resys_func(Y,R,feat_num,lambda);
 
@@ -30,8 +28,7 @@ for i=1:user_num
     end
 end
 
-
-
+end
 
 
 
