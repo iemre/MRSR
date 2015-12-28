@@ -203,10 +203,6 @@ classdef ItemBasedKNN < AbstractExperiment
         end
         
         function obj = calculateSimilaritiesUsingMatlabKNN(obj)
-            if isempty(obj.similarities) == 0
-                return;
-            end
-            
             for itemIndex = 1:obj.itemCount
                 fprintf('Calculating similar items to item %d\n', itemIndex);
                 [neighbourIndexes, distances] = knnsearch(obj.baseSet', obj.baseSet(:, itemIndex)', 'distance', 'correlation', 'k', obj.itemCount);

@@ -96,6 +96,9 @@ classdef (Abstract) AbstractExperiment < handle
                 hit = 0;
                 fprintf('Iteration %d\n', i);
                 topNList = obj.generateTopNListForTestSetForUser(n, userIndex);
+                if isempty(topNList)
+                    continue;
+                end
                 obj.result.increaseItemHitsInList(topNList);
                 i = i + 1;
                 
@@ -127,7 +130,7 @@ classdef (Abstract) AbstractExperiment < handle
         
         function time = timeOnePrediction(obj, userIndex, itemIndex)
             tic;
-            obj.calculateFullPrediction(userIndex, itemIndex);
+            obj.makePrediction(userIndex, itemIndex);
             time = toc;
         end
 
@@ -181,7 +184,7 @@ classdef (Abstract) AbstractExperiment < handle
             end
             
             cpp = totalCpp / countUser;
-            obj.result.CPP = cpp;
+            obj.result.cppRate = cpp;
             disp(obj.result);
         end
         

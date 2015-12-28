@@ -518,7 +518,7 @@ classdef ItemBasedSparseCoderExperiment < AbstractSparseCoderExperiment
             
             ratings = obj.reconstruction(userIndex, :);
             [~, topList] = sort(ratings, 'descend');
-            topNList = zeros(1, n);
+            topNList = [];
             k = 1;
             for itemIndex = topList
                 if UIMatrixUtils.userHasRatedItem(obj.baseSet,userIndex,itemIndex,obj.nilElement)
