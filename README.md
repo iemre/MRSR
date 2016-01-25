@@ -112,5 +112,5 @@ Create a class, make it inherit the AbstractExperiment class, and implement the 
 After implementing these methods, the user can measure the personalisation, CPP, recall, precision, MAE and RMSE of their own algorithm and safely compare 
 their results to other methods. Please see the SampleRecommender.m file (https://github.com/iemre/MRSR/blob/master/SampleRecommender.m) as an example. 
 
-Please contact ismail.e.kartoglu@kcl.ac.uk if you have any questions/suggestions.
+Please contact ismail.e.kartoglu [at]kcl.ac.uk if you have any questions/suggestions.
 
