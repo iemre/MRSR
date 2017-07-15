@@ -3,7 +3,7 @@
 This folder contains some files of MATLAB code used for the experiments in the M.Sc. thesis titled "A Recommender System Based on Sparse Dictionary Coding" by Ismail Emre Kartoglu (King's College London, 2014)
 
 MRSR is a set of MATLAB classes for recommender systems research.
-The idea is to gather all the recommender system algorithms and make reliable comparisons.
+The idea is to gather all the recommender system algorithms and make reliable comparisons by separating the evaluation logic and the recommendation logic. The same evaluation logic is shared and used by all the recommendation algorithms. The user only needs to implement the recommendation logic and not worry about the evaluation logic, which is handled by the framework.
 The user can test their own algorithm by inheriting the AbstractExperiment class and implementing the abstract methods.
 Example use cases are described in what follows.
 
