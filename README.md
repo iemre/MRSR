@@ -1,4 +1,4 @@
-[![DOI](https://zenodo.org/badge/18878/iemre/MRSR.svg)](https://zenodo.org/badge/latestdoi/18878/iemre/MRSR)
+Please cite the original work https://link.springer.com/article/10.1007/s10115-018-1157-2 if you use this software in your work.
 
 This folder contains some files of MATLAB code used for the experiments in the M.Sc. thesis titled "A Recommender System Based on Sparse Dictionary Coding" by Ismail Emre Kartoglu (King's College London, 2014)
 
