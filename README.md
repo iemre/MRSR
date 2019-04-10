@@ -52,7 +52,7 @@ Important notes:
 
 2) To run the unit tests, run the "runalltests.m" matlab file. Matlab's xUnit unit test library might need to be installed.
 
-3) The program code assumes `0` represents the missing values in the User Item Matrix.
+3) The program code assumes `0` to represent the missing values in the User Item Matrix.
 
 Example 1 - Using the item-based KNN recommender:
 ==========================================================
