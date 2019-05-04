@@ -54,7 +54,7 @@ classdef ItemBasedKNNTest < matlab.unittest.TestCase
            baseSet = [4 0 3 5; 0 5 4 0; 5 4 2 0; 2 4 0 3; 3 4 5 0]; 
            testSet = zeros(5, 4);
            knnTest = ItemBasedKNN.createNewWithDatasets(baseSet, testSet); 
-           knnTest.setSimilarityCalculatorTo(Similarity.COSINE)
+           knnTest.setSimilarityCalculatorTo(Similarity.COSINE);
            knnTest.k = 2;
            prediction = knnTest.makePrediction(3, 4);
            

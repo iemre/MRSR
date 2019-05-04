@@ -212,7 +212,7 @@ classdef (Abstract) AbstractExperiment < handle
             end
             
             obj.result.MAE = totalError / predictionCount;
-            obj.result.RMSE = totalSquaredError / predictionCount;
+            obj.result.RMSE = sqrt(totalSquaredError / predictionCount);
             display(obj.result);
         end
         
